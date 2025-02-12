@@ -12,6 +12,8 @@ In order to test the hypothesis, we will conduct a simulation of 10000 dissectio
 
 In addition, we will use the beta distribution to determine the statistical law  (`beta.fit`)
 
+As a second approximation, a separate function (`analytical_pdf`) was written which used the Bayes rule to determine the true marginal distribution of r.
+
 To compare the two selected approximations, we use the AIC metric, with the code to compute MLE:
 ```python
 mle_beta = np.sum(beta.logpdf(r, a = a, b = b, loc = loc, scale = scale)) # on the whole r dataset
@@ -20,7 +22,11 @@ mle_analytical = np.sum(np.log(analytical_pdf(r, R, eps))) # on the whole r data
 #### Analytical PDF
 Suppose we have function $f(r|R)=\frac{1}{R}\bullet \frac{r}{\sqrt{R^2-r^2}}$ and using the Bayes formula $f(R|r)=\frac{f(r|R)f(R)}{f(r)}$ it can derived that
 $$f(r)=\int_{R=r}^{\infty}f(r(|R)f(R)$$
-On avera
+Approach is presented in the `analytical_pdf` function from *`modules.py`*
+#### Visualization Pipelines
+**Plotting simulations**: `pdf_const`  from *`viz.py`* < `sim()` and `analytical_pdf` from *`modules.py`*
+**Plotting R inference boxplots**: `est_box_const()` from *`viz.py`* < `big_r_est()` from *`const_case.py`* < `sim()` from *`const_case.py
+
 ## Set of spheres
 For this iteration I chose a set of spheres (~1000) with R distributed by a gamma law. For this computational experiment I simulate one dissection with 1000 small radii. 
 **Aim** is to infer the distribution of small radii
@@ -30,14 +36,22 @@ As a pattern descriptor I use two metrics: iterative analytical function and ful
 #### Iterative Analytical Function
 
 #### Fully Analytical Function
+
 ## R Inference
 ### Single R Case
 This task implies construction of the R estimator based on r distribution. Here, we consider two estimators: derived from **mean of r distribution** and **max of r**
 Also we need to check our estimator based on **two criteria**: convergence and absence of bias
+
 #### Mean Estimator
 $$\mathbb{E}(f(r))=\mathbb{E}(\frac{1}{R}\frac{r}{\sqrt{R^2 -r^2}})=\frac{1}{R}\int_0^R\frac{r^2}{\sqrt{R^2-r^2}}=\frac{R\pi}{4}$$ Which mean that we can try to use $R=\mathbb{E}(r)\bullet\frac{4}{\pi}$ as our estimator
+
 #### Max Estimator
 $$\bar{R}_n=max(r)$$
+
+#### Code for Single R Case
+Is presented in the `est_box_const` function which for each number of simulations from the list provided runs the r simulation function `n_rep` times. then computes the original R with mean estimator. Calculations the are averaged by the `n_rep` times, statistics of the R inference finally is visualized with boxplots.
+Clearly we can see that our mean estimator 
+
 ### R Distribution Case
 **Conditions**: 1000 follicles with radii $R \sim \gamma(\alpha, \beta)$, one dissection with 1000 radii $r \sim \gamma'(\alpha, \beta)$
 **Problem**: as for each of follicles we have only one observation, using simple formula $R=\mathbb{E}(r)\bullet \frac{4}{\pi}$ will give us very noisy estimations as we will not be able to use the true mean for our formula
