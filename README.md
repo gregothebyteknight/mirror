@@ -3,10 +3,15 @@ A sphere of fixed radius R is given, and a series of dissections (e.g. 10000) is
 **Objective** is to find the distribution of radii (r) of a series of dissections
 ### Thought Process 
 Let a sphere with radius R and an arbitrary dissection with unknown radius r be given. Let us define the distance from the center of the sphere to the dissection as $d=\sqrt{R^2-r²}$ from which it follows that the radius of the dissection is $r=\sqrt{R² -d²}$
+
 Let us define that **distance d** is uniformly distributed and varies from -R to R - $d(f)=\frac{1}{R}$ - from 0 to R for reasons of symmetry 
+
 It follows that **distribution r**: $$f(r|R)=f(d)\bullet \frac{\partial d}{\partial r}=\frac{1}{R}\bullet \frac{r}{\sqrt{R^2-r^2}}$$. This will be our analytical solution
+
 In order to test the hypothesis, we will conduct a simulation of 10000 dissections by initiating the distances d from a uniform distribution and counting the radii, further visualization in the form of a histogram
+
 In addition, we will use the beta distribution to determine the statistical law  (`beta.fit`)
+
 To compare the two selected approximations, we use the AIC metric, with the code to compute MLE:
 ```python
 mle_beta = np.sum(beta.logpdf(r, a = a, b = b, loc = loc, scale = scale)) # on the whole r dataset
