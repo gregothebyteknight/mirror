@@ -1,13 +1,13 @@
 ## One sphere
-Дана сфера фиксированного радиуса R, на основании её делается серия дисекций (например, 10000)
-**Целью** является нахождение распределение радиусов (r) серии дисекций
-### Ход мысли
-Пусть дана сфера с радиусом R и произвольная дисекция с неизвестным радиусом r. Определим расстояние от центра сферы до дисекции как $d=\sqrt{R^2-r²}$ из чего следует, что радиус дисекции равен $r=\sqrt{R² -d²}$
-Определимся, что **расстояние d** распределено равномерно и варьирует от -R до R - $d(f)=\frac{1}{R}$ - из соображений симметрии
-Отсюда следует, что **распределение r**: $$f(r|R)=f(d)\bullet \frac{\partial d}{\partial r}=\frac{1}{R}\bullet \frac{r}{\sqrt{R^2-r^2}}$$Это же и будет нашим аналитическим решением
-Для проверки гипотезы проведём симуляцию проведения 10000 дисекций посредством инициирования расстояний d из равномерного распределения и подсчёта радиусов, дальнейшей визуализации в виде гистограммы
-Кроме того, для определения статистического закона  воспользуемся бета распределением (`beta.fit`)
-Для сравнения двух выбранных аппроксимаций используем метрику AIC, с кодом для вычисления MLE:
+A sphere of fixed radius R is given, and a series of dissections (e.g. 10000) is made based on it
+**Objective** is to find the distribution of radii (r) of a series of dissections
+### Thought Process 
+Let a sphere with radius R and an arbitrary disection with unknown radius r be given. Let us define the distance from the center of the sphere to the discection as $d=\sqrt{R^2-r²}$ from which it follows that the radius of the dissection is $r=\sqrt{R² -d²}$
+Let us define that **distance d** is uniformly distributed and varies from -R to R - $d(f)=\frac{1}{R}$ - for reasons of symmetry
+It follows that **distribution r**: $$f(r|R)=f(d)\bullet \frac{\partial d}{\partial r}=\frac{1}{R}\bullet \frac{r}{\sqrt{R^2-r^2}}$$This will be our analytical solution
+In order to test the hypothesis, we will conduct a simulation of 10000 disjunctions by initiating the distances d from a uniform distribution and counting the radii, further visualization in the form of a histogram
+In addition, we will use the beta distribution to determine the statistical law  (`beta.fit`)
+To compare the two selected approximations, we use the AIC metric, with the code to compute MLE:
 ```python
 mle_beta = np.sum(beta.logpdf(r, a = a, b = b, loc = loc, scale = scale)) # on the whole r dataset
 mle_analytical = np.sum(np.log(analytical_pdf(r, R, eps))) # on the whole r dataset 
