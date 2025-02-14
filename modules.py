@@ -3,8 +3,9 @@ from scipy.stats import gamma
 from scipy.integrate import quad
 
 def analytical_pdf(r_set, big_r): 
-    # analytical probability density function for apparent radius (basically, likelihood - f(r|R))
     """
+    analytical probability density function for apparent radius (basically, likelihood - f(r|R))
+    
     @r_set : set of r values
     @r_big : fixed R value
     """

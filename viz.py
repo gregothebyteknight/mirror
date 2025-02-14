@@ -65,7 +65,7 @@ def est_box_const(big_r, n_sim_set, n_rep):
     """
     # R ESTIMATION
     big_r_est_set = [
-        [big_r_est(big_r, n_sim) for i in range(n_rep)]
+        [big_r_est(big_r, n_sim) for rep in range(n_rep)]
           for n_sim in n_sim_set
     ] # set of estimated R for different number of simulations
 
