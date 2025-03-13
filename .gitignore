@@ -1,0 +1,5 @@
+
+# Ignore Web files
+*.html
+*.css
+*.js
