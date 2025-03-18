@@ -76,11 +76,14 @@ $$
 R \sim \gamma(\alpha, \beta) \\
 r \sim f(R)
 \end{matrix}\right.
-$$Given above we can assume $r \sim \gamma'(f(\alpha), g(\beta))=\gamma'(\alpha',\beta')$
-If ${r_i}\sim \gamma'(\alpha',\beta')$, then we can suggest that $$\left\{\begin{matrix}
+$$ 
+Given above we can assume $r \sim \gamma'(f(\alpha), g(\beta))=\gamma'(\alpha',\beta')$
+If ${r_i}\sim \gamma'(\alpha',\beta')$, then we can suggest that
+$$\left\{\begin{matrix}
 \alpha = f^{-1}(\alpha') \\
-\beta = g^{-1}(\beta')
-\end{matrix}\right.$$**Steps**:
+\beta = g^{-1}(\beta') \\
+\end{matrix}\right$$
+**Steps**:
 1. Based on 30 repetitions plot the real parameter of gamma (from initialized R gamma) against shifted one (r gamma)
 2. Fit the curve with different assumption functions
 3. Compute the inverse
