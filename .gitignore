@@ -3,3 +3,6 @@
 *.html
 *.css
 *.js
+
+# Ignore archive files
+archive/

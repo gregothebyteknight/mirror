@@ -112,7 +112,7 @@ def pdf_gamma(theta, k, n_fol):
     plt.ylabel("Density")
     plt.legend()
     plt.title("Distribution of Apparent Radius")
-    plt.savefig("./images/pdf_gamma.png")
+    plt.savefig("../images/pdf_gamma.png")
 
     return plt
 
@@ -147,7 +147,7 @@ def viz_gamma_shift(theta, k, n_fol, stats = False):
     plt.ylabel("Density")
     plt.legend()
     plt.title("Shift of Gamma Distribution")
-    plt.savefig("./images/viz_gamma_shift.png")
+    plt.savefig("../images/viz_gamma_shift.png")
 
     return plt
 
@@ -176,7 +176,7 @@ def viz_gamma_grid(theta_set, k_set, n_fol, mode = "Default"):
             ax.set_title(f"Initial Gamma Parameters: θ={theta}, k={k}")
             
     plt.tight_layout()
-    plt.savefig("./images/viz_gamma_grid.png")
+    plt.savefig("../images/viz_gamma_grid.png")
     
     return plt
 
@@ -226,6 +226,6 @@ def params_shift(params_set, mode = "theta"):
     plt.ylabel(ylabel)
     plt.legend()
     plt.title(title)
-    plt.savefig("./images/params_shift.png")
+    plt.savefig("../images/params_shift.png")
 
     return plt
