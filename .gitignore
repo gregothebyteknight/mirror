@@ -5,7 +5,7 @@
 *.js
 
 # Ignore archive files
-archive/
+# archive/
 
 # Ignore info files
 info/
