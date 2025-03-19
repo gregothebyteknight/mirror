@@ -6,3 +6,6 @@
 
 # Ignore archive files
 archive/
+
+# Ignore info files
+info/

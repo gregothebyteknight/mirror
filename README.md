@@ -1,8 +1,9 @@
-## One sphere
+# Simulation of Spheres
+## Single sphere
 A sphere of fixed radius R is given, and a series of dissections (e.g. 10000) is made based on it
 **Objective** is to find the distribution of radii (r) of a series of dissections
 ### Thought Process 
-Let a sphere with radius R and an arbitrary dissection with unknown radius r be given. Let us define the distance from the center of the sphere to the dissection as $d=\sqrt{R^2-r²}$ from which it follows that the radius of the dissection is $r=\sqrt{R² -d²}$
+Let a sphere with radius R and an arbitrary dissection with unknown radius r be given. Let us define the distance from the center of the sphere to the dissection as $d=\sqrt{R^2-r^2}$ from which it follows that the radius of the dissection is $r=\sqrt{R^2 -d^2}$
 
 Let us define that **distance d** is uniformly distributed and varies from -R to R - $d(f)=\frac{1}{R}$ - from 0 to R for reasons of symmetry 
 
@@ -19,11 +20,6 @@ To compare the two selected approximations, we use the AIC metric, with the code
 mle_beta = np.sum(beta.logpdf(r, a = a, b = b, loc = loc, scale = scale)) # on the whole r dataset
 mle_analytical = np.sum(np.log(analytical_pdf(r, R, eps))) # on the whole r dataset 
 ```
-#### Analytical PDF
-Suppose we have function $f(r|R)=\frac{1}{R}\bullet \frac{r}{\sqrt{R^2-r^2}}$ and using the Bayes formula $f(R|r)=\frac{f(r|R)f(R)}{f(r)}$ it can derived that
-$$f(r)=\int_{R=r}^{\infty}f(r(|R)f(R)$$
-Approach is presented in the `analytical_pdf` function from *`modules.py`*
-
 #### Visualization Pipelines
 **Plotting simulations**: `pdf_const`  from *`viz.py`* < `sim()` and `analytical_pdf` from *`modules.py`*
 
@@ -37,11 +33,11 @@ For this iteration I chose a set of spheres (~1000) with R distributed by a gamm
 ### Pipeline
 For each of R from gamma law I first compute distance and then r. From a set of small radii and plot a histogram which will be a picture of my simulation
 As a pattern descriptor I use **two metrics**: iterative analytical function and fully analytical function
-#### Iterative Analytical Function
-Used as a first attempt to visualize the PDF. Calculation based on the following steps:
-1. 
 
-#### Fully Analytical Function
+#### Analytical Function
+Suppose we have function $f(r|R)=\frac{1}{R}\bullet \frac{r}{\sqrt{R^2-r^2}}$ and using the Bayes formula $f(R|r)=\frac{f(r|R)f(R)}{f(r)}$ it can derived that
+$$f(r)=\int_{R=r}^{\infty}f(r(|R)f(R)dR$$
+Approach is presented in the `analytical_pdf` function from `modules.py`
 
 ## R Inference
 ### Single R Case
@@ -50,7 +46,7 @@ This task implies construction of the R estimator based on r distribution. Here,
 Also we need to check our estimator based on **two criteria**: convergence and absence of bias
 
 #### Mean Estimator
-$$\mathbb{E}(f(r))=\mathbb{E}(\frac{1}{R}\frac{r}{\sqrt{R^2 -r^2}})=\frac{1}{R}\int_0^R\frac{r^2}{\sqrt{R^2-r^2}}=\frac{R\pi}{4}$$ 
+$$\mathbb{E}(f(r))=\mathbb{E}(\frac{1}{R}\frac{r}{\sqrt{R^2 -r^2}})=\frac{1}{R}\int_0^R\frac{r^2}{\sqrt{R^2-r^2}}dr=\frac{R\pi}{4}$$ 
 From this formula we can postulate that $R=\mathbb{E}(r)\bullet\frac{4}{\pi}$ and use it as our estimator
 
 #### Max Estimator
@@ -60,8 +56,6 @@ Was not used for the simulations
 #### Code for Single R Case
 Is presented in the `est_box_const` function which for each number of simulations from the list provided runs the r simulation function `n_rep` times. then computes the original R with mean estimator. Calculations the are averaged by the `n_rep` times, statistics of the R inference finally is visualized with boxplots.
 
-Clearly we can see that our mean estimator 
-
 ### R Distribution Case
 **Conditions**: 1000 follicles with radii $R \sim \gamma(\alpha, \beta)$, one dissection with 1000 radii $r \sim \gamma'(\alpha, \beta)$
 
@@ -70,6 +64,9 @@ Clearly we can see that our mean estimator
 Here the **two approaches** will be used:
 - Deriving parameters from the **equation** $\int_{R=r}^{\infty}\frac{1}{R}\frac{r}{\sqrt{R^2-r^2}}\gamma(\alpha,\beta)dR=\gamma'(\alpha',\beta')$
 - Using **assumption**: $r\sim \gamma'(f(\alpha), g(\beta))$
+
+Since the analytical computation of parameters is too complex, we got use of regression model to assess parameters of spheres' radii distribution 
+
 #### Using Assumptions
 $$
 \left\{\begin{matrix}
@@ -79,12 +76,34 @@ r \sim f(R)
 $$ 
 Given above we can assume $r \sim \gamma'(f(\alpha), g(\beta))=\gamma'(\alpha',\beta')$
 If ${r_i}\sim \gamma'(\alpha',\beta')$, then we can suggest that
-$$\left\{\begin{matrix}
+$$
+\left\{\begin{matrix}
 \alpha = f^{-1}(\alpha') \\
 \beta = g^{-1}(\beta') \\
-\end{matrix}\right$$
+\end{matrix}\right.
+$$
 **Steps**:
+
 1. Based on 30 repetitions plot the real parameter of gamma (from initialized R gamma) against shifted one (r gamma)
 2. Fit the curve with different assumption functions
 3. Compute the inverse
-4. Implement the inverse into the R inference function 
+4. Implement the inverse into the R inference function
+
+# Simulation of Tissues
+## Nodules
+Generation of nodule centroids from Poisson distribution and progressive addition of points around centroids with a distance from center less or equal to the given radius
+
+## Vessels
+Two models were tested, based on:
+
+- Brownian random walk and
+- Kent distribution
+
+Second seems more plausible possessing adequate branching
+
+### Kent Distribution Model
+Directional distribution on the unit sphere allowing to generate controlled directions of the branching process
+
+By iterative process and certain branching probability, a tree of centroids is generated. Based on this framework, Poisson distribution helps to produce vessel cells coordinates with the distance less or equal to the given radius of the vessel
+
+

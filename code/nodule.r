@@ -29,6 +29,7 @@ for (init in 1:inits) {
 dot_loc <- dot_loc + matrix(data = rnorm(n = nrow(dot_loc) * 3,
                                          mean = 0, sd = 0.05),
                             nrow = nrow(dot_loc), ncol = 3)
+dot_loc.
 plot3d(dot_loc, col = "#5454c4e1", size = 2,
        xlab = "X", ylab = "Y", zlab = "Z")
 
