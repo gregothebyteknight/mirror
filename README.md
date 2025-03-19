@@ -82,6 +82,7 @@ $$
 \beta = g^{-1}(\beta') \\
 \end{matrix}\right.
 $$
+
 **Steps**:
 
 1. Based on 30 repetitions plot the real parameter of gamma (from initialized R gamma) against shifted one (r gamma)
