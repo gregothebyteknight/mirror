@@ -19,8 +19,7 @@ d <- 1 # width of vessel's walls
 lambda <- 0.02 # Poisson process intensity
 jitter_sd <- 0.1  # standard deviation for jitter
 
-tree <- list() # list to hold branch trajectories
-tree[[1]] <- matrix(c(0, 0, 0), nrow = 1)  # origin at (0, 0, 0)
+tree <- list(matrix(c(0, 0, 0), nrow = 1)) # list to hold branch trajectories
 new_point <- kent_point(2, 0, c(1, 0, 0), 1, tree[[1]], step_size)
 tree[[1]] <- rbind(tree[[1]], new_point) # add first step
 
@@ -92,8 +91,6 @@ for (branch in tree) {
     }
   }
 }
-colnames(dot_loc) <- c("x", "y", "z")
-utils::write.csv(dot_loc, "../data/vessel_loc.csv", row.names = FALSE)
 
 # VISUALIZATION
 # Create a batch vector that assigns a unique id to each branch’s points
@@ -109,3 +106,8 @@ rgl::points3d(dot_loc, size = 2)
 widget <- rgl::rglwidget()
 htmlwidgets::saveWidget(widget, "../images/vessel_combined.html",
                         selfcontained = TRUE)
+
+# Save as CSV
+dot_loc <- scale(dot_loc, center = TRUE, scale = FALSE) # centering
+colnames(dot_loc) <- c("x", "y", "z") # rename columns
+utils::write.csv(dot_loc, "../data/vessel_loc.csv", row.names = FALSE)

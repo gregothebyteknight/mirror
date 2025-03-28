@@ -68,14 +68,18 @@ Here the **two approaches** will be used:
 Since the analytical computation of parameters is too complex, we got use of regression model to assess parameters of spheres' radii distribution 
 
 #### Using Assumptions
+
 $$
 \left\{\begin{matrix}
 R \sim \gamma(\alpha, \beta) \\
 r \sim f(R)
 \end{matrix}\right.
 $$ 
+
 Given above we can assume $r \sim \gamma'(f(\alpha), g(\beta))=\gamma'(\alpha',\beta')$
+
 If ${r_i}\sim \gamma'(\alpha',\beta')$, then we can suggest that
+
 $$
 \left\{\begin{matrix}
 \alpha = f^{-1}(\alpha') \\
