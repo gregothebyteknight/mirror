@@ -19,7 +19,7 @@ rotation <- function(vec) {
   axis_mag <- sqrt(sum(axis^2))
   if (axis_mag < 1e-9) {
     if (vec[1] > 0) return(diag(3))
-    else return(diag(c(-1, -1, 1)))
+    else return(diag(c(1, 1, 1)))
   }
   axis <- axis / axis_mag  # Normalize axis
   theta <- acos(sum(vec * c(1, 0, 0)))
@@ -51,6 +51,6 @@ kent_point <- function(n, kappa, vec, beta, last_dot, step_size) {
     higher values result in more elongated points
   last_dot: numeric vector of length 3, last point
   step_size: numeric, distance to extend the branch"
-  vec <- Directional::rkent(n, kappa, vec, beta)[1, ]
+  vec <- Directional::rkent(n, kappa, vec / sqrt(sum(vec^2)), beta)[1, ]
   last_dot + vec * step_size
 }
