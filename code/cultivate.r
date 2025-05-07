@@ -1,17 +1,18 @@
 
+# SETUP THE ENVIRONMENT
 setwd(this.path::here())
 
 source("nodule.r")
 source("vessel.r")
 
-library(ggplot2)
+suppressPackageStartupMessages(library(ggplot2))
 
 # INITIALIZE VARIABLES
 int_nod <- 2000 # intensity of the Poisson process for nodules
 int_vess <- 0.005 # intensity of the Poisson process for vessels
 
 num_sim <- 30 # number of simulations
-type <- "nodule" # type of simulation ("nodule" or "vessel")
+type <- "vessel" # type of simulation ("nodule" or "vessel")
 cell_counts <- numeric(num_sim)
 
 
@@ -20,16 +21,16 @@ for (i in 1:num_sim) {
   dir.create(sprintf("../data/sim_%s", i), showWarnings = FALSE,
              recursive = TRUE)
   if (type == "nodule") { # Simulate nodules
-    dot_loc <- nodule(int_nod, viz = FALSE, save = FALSE)
+    dot_loc <- nodule(int_nod, i, viz = FALSE, save = FALSE)
   } else if (type == "vessel") { # Simulate vessels
-    dot_loc <- vessel(int_vess, viz = FALSE, save = FALSE)
+    dot_loc <- vessel(int_vess, i, viz = FALSE, save = FALSE)
   }
   cell_counts[i] <- nrow(dot_loc)
   write.csv(dot_loc, sprintf("../data/sim_%s/selected_cell_coordinates.csv", i),
             row.names = FALSE)
 }
 
-# VISUALIZATIONs
+# VISUALIZATION
 # Create a data frame for plotting
 cell_data <- data.frame(sim_num = 1:num_sim, cell_count = cell_counts)
 

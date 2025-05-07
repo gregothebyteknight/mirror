@@ -1,10 +1,13 @@
-library(rgl)
-library(htmlwidgets)
 
+# SETUP THE ENVIRONMENT
 setwd(this.path::here())
+suppressPackageStartupMessages({
+  library(rgl)
+  library(htmlwidgets)
+})
 options(rgl.printRglwidget = TRUE)
 
-nodule <- function(int, viz = FALSE, save = FALSE) {
+nodule <- function(int, ord, viz = FALSE, save = FALSE) {
   # VARIABLES DECLARATION
   win_min <- 0
   win_max <- 1000
@@ -49,7 +52,7 @@ nodule <- function(int, viz = FALSE, save = FALSE) {
   # Final edits
   dot_loc <- scale(dot_loc, center = TRUE, scale = FALSE) # centering
   dot_loc <- cbind(dot_loc, rep("1", nrow(dot_loc))) # add clusters
-  dot_loc <- cbind(dot_loc, rep("nodule_cell", nrow(dot_loc))) # add cells
+  dot_loc <- cbind(dot_loc, rep(sprintf("Nodule cell_%s", ord), nrow(dot_loc)))
   colnames(dot_loc) <- c("x", "y", "z", "cluster", "cell") # rename columns
 
   if (save) {

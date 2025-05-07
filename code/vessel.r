@@ -1,16 +1,19 @@
 
 # LOADING LIBRARIES
+setwd(this.path::here())
 source("./module.r")
 
-library(rgl) # interactive 3D plotting
-library(fifer) # for scring.to.colors
-library(htmlwidgets) # for saving the plot
+suppressPackageStartupMessages({
+  library(rgl) # interactive 3D plotting
+  library(fifer) # for scring.to.colors
+  library(htmlwidgets) # for saving the plot
+  library(spatstat) # for Poisson process simulation
+})
 
-setwd(this.path::here())
 
 options(rgl.printRglwidget = TRUE)
 
-vessel <- function(int, viz = FALSE, save = FALSE) {
+vessel <- function(int, ord, viz = FALSE, save = FALSE) {
   # VARIABLES DECLARATION
   num_steps <- 400 # number of steps
   step_size <- 0.5  # step size
@@ -115,7 +118,8 @@ vessel <- function(int, viz = FALSE, save = FALSE) {
   # Final edits
   dot_loc <- scale(dot_loc, center = TRUE, scale = FALSE) # centering
   dot_loc <- cbind(dot_loc, rep("1", nrow(dot_loc))) # add clusters
-  dot_loc <- cbind(dot_loc, rep("vessel_cell", nrow(dot_loc))) # add cells
+  dot_loc <- cbind(dot_loc, rep(sprintf("Vessel cell_%s", ord),
+                                nrow(dot_loc))) # add cells
   colnames(dot_loc) <- c("x", "y", "z", "cluster", "cell") # rename columns
 
   if (save) {
