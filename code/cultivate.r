@@ -8,11 +8,11 @@ source("vessel.r")
 suppressPackageStartupMessages(library(ggplot2))
 
 # INITIALIZE VARIABLES
-int_nod <- 2000 # intensity of the Poisson process for nodules
-int_vess <- 0.005 # intensity of the Poisson process for vessels
+int_nod <- 7e4 # intensity of the Poisson process for nodules
+int_vess <- 5e-3 # intensity of the Poisson process for vessels
 
 num_sim <- 30 # number of simulations
-type <- "vessel" # type of simulation ("nodule" or "vessel")
+type <- "nodule" # type of simulation ("nodule" or "vessel")
 cell_counts <- numeric(num_sim)
 
 

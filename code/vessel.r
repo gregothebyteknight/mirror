@@ -15,18 +15,18 @@ options(rgl.printRglwidget = TRUE)
 
 vessel <- function(int, ord, viz = FALSE, save = FALSE) {
   # VARIABLES DECLARATION
-  num_steps <- 400 # number of steps
-  step_size <- 0.5  # step size
-  prob <- 0.01 # probability of branching
+  num_steps <- 200 # number of steps
+  step_size <- 5  # step size
+  prob <- 0.006 # probability of branching
 
-  r <- 5 # radius of vessel
-  d <- 1 # width of vessel's walls
+  r <- 7.5 # radius of vessel
+  d <- 1.5 # width of vessel's walls
   lambda <- int # Poisson process intensity
-  jitter_sd <- 0.1  # standard deviation for jitter
+  jitter_sd <- 0.5  # standard deviation for jitter
 
   # VESSEL SIMULATION
   tree <- list(matrix(c(0, 0, 0), nrow = 1)) # list to hold branch trajectories
-  new_point <- kent_point(2, 0, c(1, 0, 0), 1, tree[[1]], step_size) # nolint
+  new_point <- kent_point(2, 0, c(1, 0, 0), 5, tree[[1]], step_size) # nolint
   tree[[1]] <- rbind(tree[[1]], new_point) # add first step
 
   dot_loc <- matrix(ncol = 3, nrow = 0) # final matrix of dot location
@@ -55,7 +55,7 @@ vessel <- function(int, ord, viz = FALSE, save = FALSE) {
 
       # BRANCHING CONDITION
       if (runif(1) < prob) {
-        branch_new_point <- kent_point(2, 0, vec, 1, last_dot, step_size) # nolint
+        branch_new_point <- kent_point(2, 0, vec, 5, last_dot, step_size) # nolint
         new_branch <- rbind(branch, branch_new_point)
         new_branches[[length(new_branches) + 1]] <- new_branch
       }
@@ -130,3 +130,6 @@ vessel <- function(int, ord, viz = FALSE, save = FALSE) {
     return(invisible(dot_loc))
   }
 }
+
+
+vessel(5e-3, 1, viz = TRUE, save = FALSE)

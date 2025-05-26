@@ -10,9 +10,9 @@ options(rgl.printRglwidget = TRUE)
 nodule <- function(int, ord, viz = FALSE, save = FALSE) {
   # VARIABLES DECLARATION
   win_min <- 0
-  win_max <- 1000
+  win_max <- 500
   win_scale <- win_max - win_min
-  inits <- rpois(n = 1, lambda = 30) # number of clusters
+  inits <- rpois(n = 1, lambda = 15) # number of clusters
   init_loc <- cbind(runif(inits, win_min, win_max),
                     runif(inits, win_min, win_max),
                     runif(inits, win_min, win_max)) # location of inits
@@ -20,7 +20,7 @@ nodule <- function(int, ord, viz = FALSE, save = FALSE) {
 
   # GENERATE SPHERES OF DOTS AROUND INITIALES
   for (init in 1:inits) {
-    r <- rexp(n = 1, rate = 1 / (0.1 * win_scale)) # random radius
+    r <- rexp(n = 1, rate = 1 / (0.05 * win_scale)) # random radius
     dot_temp <- rpois(n = 1, lambda = (4 / 3) * pi * r^3 * int / win_scale^3)
 
     i <- 0
@@ -62,3 +62,6 @@ nodule <- function(int, ord, viz = FALSE, save = FALSE) {
     return(invisible(dot_loc))
   }
 }
+
+
+nodule(7e4, 1, viz = TRUE, save = FALSE)
