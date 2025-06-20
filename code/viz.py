@@ -1,16 +1,33 @@
-import matplotlib.pyplot as plt
+
+import os
 import numpy as np
 import seaborn as sns
+import matplotlib as mpl
+import matplotlib.pyplot as plt
 
-from modules import analytical_pdf, marginal_r
+from cycler import cycler
 from scipy.stats import beta, gamma
 from const_case import sim, big_r_est
 from gamma_case import sim_gamma, gamma_shift
+from modules import analytical_pdf, marginal_r
 
-sns.set_style('dark')
+deep = sns.color_palette("deep")
+new_deep = [
+    deep[0],  # blue
+    deep[3],  # red
+    deep[2],  # green
+    deep[1],  # orange
+    deep[4],  # purple
+    deep[5],  # brown
+]
 
+sns.set_theme(style = "ticks", palette = new_deep)
+mpl.rcParams["axes.prop_cycle"] = cycler(color = new_deep)
+mpl.rcParams["axes.spines.top"] = False
+mpl.rcParams["axes.spines.right"] = False
 
 def pdf_const(big_r, n_sim):
+    print("cwd:", os.getcwd())
     """
     Visualize the distribution of apparent radius {@r_set} in condition of a sphere of radius {@r_big}
 
@@ -21,8 +38,8 @@ def pdf_const(big_r, n_sim):
     r_set = sim(big_r, n_sim)
 
     # PLOT SIMULATIONS
-    _, bin_edges, _ = plt.hist(r_set, density = True, alpha = 0.8,
-    color = 'brown', label = "Simulation", bins = 100) # bins == size
+    _, bin_edges, _ = plt.hist(r_set, density = True, alpha = 0.8, 
+                               label = "Simulation", bins = 100) # bins == size
     # Calculate midpoints of bin edges
     r_grid = (bin_edges[:-1] + bin_edges[1:]) / 2
 
@@ -50,7 +67,8 @@ def pdf_const(big_r, n_sim):
     plt.ylabel("Density")
     plt.legend()
     plt.title("Distribution of Apparent Radius")
-    plt.savefig("./images/pdf_const.png")
+    os.makedirs("./images", exist_ok = True)
+    plt.savefig("../images/pdf_const.pdf")
 
     return plt
 
@@ -69,22 +87,32 @@ def est_box_const(big_r, n_sim_set, n_rep):
           for n_sim in n_sim_set
     ] # set of estimated R for different number of simulations
 
-    _, axes = plt.subplots(1, 3, figsize = (15, 5), sharey = True)
+    dp = sns.color_palette("deep", n_colors = 6)
+    median_color = dp[2] # greenish median
+    hline_color = dp[3] # reddish true‐value line
 
-    for ax, n_sim, estimates in zip(axes, n_sim_set, big_r_est_set):
+    _, axes = plt.subplots(1, 3, figsize = (15, 5), sharey = True)
+    for ax, n_sim, estimates in zip(axes, n_sim_set, 
+                                              big_r_est_set):
         ax.boxplot(estimates,
-                   boxprops = dict(color = "black"),  
+                   boxprops = dict(facecolor = "white",
+                                   edgecolor = "black"),
+                   patch_artist = True, 
                    whiskerprops = dict(color = "black"), 
                    capprops = dict(color = "black"), 
-                   medianprops = dict(color = "green"))
-        ax.axhline(y = big_r, color = 'red', linestyle = '--', 
+                   medianprops = dict(color = median_color),
+                   flierprops   = dict(marker = 'o',
+                                       markerfacecolor = "black",
+                                       markeredgecolor = "black",
+                                       markersize = 4))
+        ax.axhline(y = big_r, color = hline_color, linestyle = '--', 
                 label = f"True value = {big_r}")
         ax.set_title(f'Number of Simulations = {n_sim}')
         ax.legend()
 
     axes[0].set_ylabel('Estimated R')
     plt.tight_layout()
-    plt.savefig("./images/est_box_const.png")
+    plt.savefig("../images/est_box_const.pdf")
     
     return plt
 
@@ -112,7 +140,7 @@ def pdf_gamma(theta, k, n_fol):
     plt.ylabel("Density")
     plt.legend()
     plt.title("Distribution of Apparent Radius")
-    plt.savefig("../images/pdf_gamma.png")
+    plt.savefig("../images/pdf_gamma.pdf")
 
     return plt
 
@@ -147,7 +175,7 @@ def viz_gamma_shift(theta, k, n_fol, stats = False):
     plt.ylabel("Density")
     plt.legend()
     plt.title("Shift of Gamma Distribution")
-    plt.savefig("../images/viz_gamma_shift.png")
+    plt.savefig("../images/viz_gamma_shift.pdf")
 
     return plt
 
@@ -176,7 +204,7 @@ def viz_gamma_grid(theta_set, k_set, n_fol, mode = "Default"):
             ax.set_title(f"Initial Gamma Parameters: θ={theta}, k={k}")
             
     plt.tight_layout()
-    plt.savefig("../images/viz_gamma_grid.png")
+    plt.savefig("../images/viz_gamma_grid.pdf")
     
     return plt
 
@@ -226,6 +254,6 @@ def params_shift(params_set, mode = "theta"):
     plt.ylabel(ylabel)
     plt.legend()
     plt.title(title)
-    plt.savefig("../images/params_shift.png")
+    plt.savefig("../images/params_shift.pdf")
 
     return plt

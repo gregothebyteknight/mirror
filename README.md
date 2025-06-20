@@ -1,7 +1,9 @@
 # Simulation of Spheres
 ## Single sphere
 A sphere of fixed radius R is given, and a series of dissections (e.g. 10000) is made based on it
+
 **Objective** is to find the distribution of radii (r) of a series of dissections
+
 ### Thought Process 
 Let a sphere with radius R and an arbitrary dissection with unknown radius r be given. Let us define the distance from the center of the sphere to the dissection as $d=\sqrt{R^2-r^2}$ from which it follows that the radius of the dissection is $r=\sqrt{R^2 -d^2}$
 
@@ -20,6 +22,7 @@ To compare the two selected approximations, we use the AIC metric, with the code
 mle_beta = np.sum(beta.logpdf(r, a = a, b = b, loc = loc, scale = scale)) # on the whole r dataset
 mle_analytical = np.sum(np.log(analytical_pdf(r, R, eps))) # on the whole r dataset 
 ```
+
 #### Visualization Pipelines
 **Plotting simulations**: `pdf_const`  from *`viz.py`* < `sim()` and `analytical_pdf` from *`modules.py`*
 

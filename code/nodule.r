@@ -54,14 +54,13 @@ nodule <- function(int, ord, viz = FALSE, save = FALSE) {
   dot_loc <- cbind(dot_loc, rep("1", nrow(dot_loc))) # add clusters
   dot_loc <- cbind(dot_loc, rep(sprintf("Nodule cell_%s", ord), nrow(dot_loc)))
   colnames(dot_loc) <- c("x", "y", "z", "cluster", "cell") # rename columns
-
+  print(sprintf("Number of cells in the simulation: %s", nrow(dot_loc)))
   if (save) {
     utils::write.csv(dot_loc, "../data/nodule_loc.csv", row.names = FALSE)
   } else {
-    print(sprintf("Number of cells in the simulation: %s", nrow(dot_loc)))
     return(invisible(dot_loc))
   }
 }
 
 
-nodule(7e4, 1, viz = TRUE, save = FALSE)
+nodule(7e4, 1, viz = TRUE, save = TRUE)
